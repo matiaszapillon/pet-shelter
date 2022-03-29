@@ -1,11 +1,13 @@
 package com.petshelter.service;
 
 import com.petshelter.entity.Pet;
+import com.petshelter.helper.PetType;
 import com.petshelter.repository.PetRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class PetServiceImpl implements PetService{
@@ -34,5 +36,16 @@ public class PetServiceImpl implements PetService{
         }else{
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public List<Pet> getAllByType(PetType type) {
+        return petRepository.findAll(isADog(type));
+    }
+
+
+    //Spring data Specifications.
+    static Specification<Pet> isADog(PetType petType) {
+        return (book, cq, cb) -> cb.equal(book.get("type"), petType);
     }
 }

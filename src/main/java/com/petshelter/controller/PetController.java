@@ -1,9 +1,12 @@
 package com.petshelter.controller;
 
 import com.petshelter.entity.Pet;
+import com.petshelter.helper.PetType;
+import com.petshelter.repository.CustomPetRepositoryImpl;
 import com.petshelter.repository.PetRepository;
 import com.petshelter.helper.PetModelAssembler;
 import com.petshelter.service.PetService;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
@@ -64,6 +67,21 @@ public class PetController {
     public ResponseEntity<?> savePet(@RequestBody Pet pet){
         petService.save(pet);
         return new ResponseEntity<>(pet, HttpStatus.OK);
+    }
+
+    @GetMapping("/petByType")
+    public ResponseEntity<CollectionModel<EntityModel<Pet>>> getAllByType(){
+        List<EntityModel<Pet>> pets = petRepository.getAllPetByType(PetType.DOG).stream()//petService.getAllByType(("Dog")).stream()
+                .map(petModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(CollectionModel.of(pets, linkTo(methodOn(PetController.class).getAll()).withSelfRel()),HttpStatus.MULTIPLE_CHOICES);
+    }
+
+    @DeleteMapping("/pet/{id}")
+    public ResponseEntity<?> deletePet(@PathVariable Long id){
+        petRepository.deleteById(id);
+        return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
     }
 
     //Should i Use ResponseEntity Or EntityModel to return object in REST Api?

@@ -1,5 +1,7 @@
 package com.petshelter.entity;
 
+import com.petshelter.helper.PetType;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,7 +14,8 @@ public class Pet {
 
     private String name;
     private String location;
-    private String type;
+    @Enumerated(value = EnumType.STRING)
+    private PetType type;
     @Column(name = "stamp_created")
     private Timestamp stampCreated;
     @Column(name = "stamp_updated")
@@ -42,11 +45,11 @@ public class Pet {
         this.location = location;
     }
 
-    public String getType() {
+    public PetType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(PetType type) {
         this.type = type;
     }
 
