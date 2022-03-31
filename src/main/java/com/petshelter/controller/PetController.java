@@ -64,9 +64,9 @@ public class PetController {
     }
 
     @PostMapping("/pet")
-    public ResponseEntity<?> savePet(@RequestBody Pet pet){
+    public ResponseEntity<?> createPet(@RequestBody Pet pet){
         petService.save(pet);
-        return new ResponseEntity<>(pet, HttpStatus.OK);
+        return new ResponseEntity<>(pet, HttpStatus.CREATED);
     }
 
     @GetMapping("/petByType")
@@ -84,5 +84,10 @@ public class PetController {
         return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
     }
 
-    //Should i Use ResponseEntity Or EntityModel to return object in REST Api?
+    @PutMapping("/pet")
+    public ResponseEntity<?> updateSave(@RequestBody Pet pet){
+        petService.save(pet);
+        return new ResponseEntity<>(pet, HttpStatus.OK);
+    }
+    //Should i Use ResponseEntity Or EntityModel to return object in REST Api? -> with ResponseEntity you can manage Headers, HttpCode, etc.
 }
