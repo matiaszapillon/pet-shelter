@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CustomPetRepository {
     List<Pet> getAllPetByType(PetType type);
+
+    List<Pet> getAllTransitPetByIdTransitShelterPerson(Long id);
 }

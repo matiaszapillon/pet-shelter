@@ -1,8 +1,10 @@
 package com.petshelter.service;
 
 import com.petshelter.entity.Pet;
+import com.petshelter.entity.TransitShelterPerson;
 import com.petshelter.helper.PetType;
 import com.petshelter.repository.PetRepository;
+import com.petshelter.repository.TransitShelterPersonRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,11 @@ import java.util.List;
 public class PetServiceImpl implements PetService{
 
     private final PetRepository petRepository;
+    private final TransitShelterPersonRepository transitShelterPersonRepository;
 
-    public PetServiceImpl(PetRepository petRepository){
+    public PetServiceImpl(PetRepository petRepository, TransitShelterPersonRepository transitShelterPersonRepository){
         this.petRepository = petRepository;
+        this.transitShelterPersonRepository = transitShelterPersonRepository;
     }
 
     @Override
@@ -41,6 +45,13 @@ public class PetServiceImpl implements PetService{
     @Override
     public List<Pet> getAllByType(PetType type) {
         return petRepository.findAll(isADog(type));
+    }
+
+    @Override
+    public List<Pet> getAllTransitPetByIdTransitShelterPerson(Long id) {
+        TransitShelterPerson transitShelterPerson = transitShelterPersonRepository.getById(id);
+        return petRepository.findByTransitShelterPerson(transitShelterPerson);
+       // return petRepository.getAllTransitPetByIdTransitShelterPerson(id);
     }
 
 

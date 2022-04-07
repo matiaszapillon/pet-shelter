@@ -1,7 +1,9 @@
 package com.petshelter.service;
 
 import com.petshelter.entity.Pet;
+import com.petshelter.entity.TransitShelterPerson;
 import com.petshelter.repository.PetRepository;
+import com.petshelter.repository.TransitShelterPersonRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,17 +24,19 @@ public class PetServiceImplTest {
 
     private PetRepository petRepository;
     private PetService petService;
+    private TransitShelterPersonRepository transitShelterPersonRepository;
 
     @BeforeEach
     void setUp() {
         petRepository = Mockito.mock(PetRepository.class);
-        petService = new PetServiceImpl(petRepository);
+        petService = new PetServiceImpl(petRepository,transitShelterPersonRepository);
     }
 
 
     @Test
     void save() {
         Pet pet = new Pet();
+
         Mockito.doNothing().when(petRepository.save(pet)); //Why I get errors here? How can I mock a void method?
         petService.save(pet);
         Assertions.assertNotNull(pet.getId());

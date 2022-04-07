@@ -11,4 +11,6 @@ public interface PetService {
      Pet getPetById(Long id);
 
      List<Pet> getAllByType(PetType type);
+
+     List<Pet> getAllTransitPetByIdTransitShelterPerson(Long id);
 }

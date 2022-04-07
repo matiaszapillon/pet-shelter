@@ -35,5 +35,21 @@ public class CustomPetRepositoryImpl implements CustomPetRepository {
         return typedQuery.getResultList();
     }
 
+    @Override
+    public List<Pet> getAllTransitPetByIdTransitShelterPerson(Long id) {
+        return null;
+    }
+
+    /*
+    @Override
+    public List<Pet> getAllTransitPetByIdTransitShelterPerson(Long id) {
+        TypedQuery<Pet> query
+                = entityManager.createQuery(
+                "SELECT p FROM TransitShelterPerson tsp, Pet p WHERE tsp.id = ", Department.class);
+        List<Department> resultList = query.getResultList();
+    }
+
+     */
+
 
 }

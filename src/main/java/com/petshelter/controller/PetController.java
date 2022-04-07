@@ -2,18 +2,15 @@ package com.petshelter.controller;
 
 import com.petshelter.entity.Pet;
 import com.petshelter.helper.PetType;
-import com.petshelter.repository.CustomPetRepositoryImpl;
 import com.petshelter.repository.PetRepository;
 import com.petshelter.helper.PetModelAssembler;
 import com.petshelter.service.PetService;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,4 +87,15 @@ public class PetController {
         return new ResponseEntity<>(pet, HttpStatus.OK);
     }
     //Should i Use ResponseEntity Or EntityModel to return object in REST Api? -> with ResponseEntity you can manage Headers, HttpCode, etc.
+
+    @GetMapping("/petByIdTransitShelterPerson/" +
+            "{id}")
+    public ResponseEntity<?> getTransitPetsByIdTransitShelterPerson(@PathVariable Long id){
+
+        List<EntityModel<Pet>> pets = petService.getAllTransitPetByIdTransitShelterPerson(id).stream()
+                .map(petModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(CollectionModel.of(pets, linkTo(methodOn(PetController.class).getAll()).withSelfRel()),HttpStatus.MULTIPLE_CHOICES);
+    }
 }
