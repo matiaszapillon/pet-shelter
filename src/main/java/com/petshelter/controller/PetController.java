@@ -56,7 +56,7 @@ public class PetController {
         if(pet.isPresent()){
             return new ResponseEntity<>(pet.get(),HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("Not found", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
         }
     }
 
@@ -72,7 +72,7 @@ public class PetController {
                 .map(petModelAssembler::toModel)
                 .collect(Collectors.toList());
 
-        return new ResponseEntity<>(CollectionModel.of(pets, linkTo(methodOn(PetController.class).getAll()).withSelfRel()),HttpStatus.MULTIPLE_CHOICES);
+        return new ResponseEntity<>(CollectionModel.of(pets, linkTo(methodOn(PetController.class).getAll()).withSelfRel()),HttpStatus.OK);
     }
 
     @DeleteMapping("/pet/{id}")
@@ -88,8 +88,7 @@ public class PetController {
     }
     //Should i Use ResponseEntity Or EntityModel to return object in REST Api? -> with ResponseEntity you can manage Headers, HttpCode, etc.
 
-    @GetMapping("/petByIdTransitShelterPerson/" +
-            "{id}")
+    @GetMapping("/petByIdTransitShelterPerson/" + "{id}")
     public ResponseEntity<?> getTransitPetsByIdTransitShelterPerson(@PathVariable Long id){
 
         List<EntityModel<Pet>> pets = petService.getAllTransitPetByIdTransitShelterPerson(id).stream()

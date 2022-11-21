@@ -57,6 +57,6 @@ public class PetServiceImpl implements PetService{
 
     //Spring data Specifications.
     static Specification<Pet> isADog(PetType petType) {
-        return (book, cq, cb) -> cb.equal(book.get("type"), petType);
+        return (pet, cq, cb) -> cb.equal(pet.get("type"), petType);
     }
 }

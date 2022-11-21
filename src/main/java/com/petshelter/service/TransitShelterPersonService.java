@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface TransitShelterPersonService {
     void save(TransitShelterPerson transitShelterPerson);
+
     List<Pet> getAllTransitPet(Long id);
 }
